@@ -33,8 +33,7 @@ workflows:
     jobs:
       - path-filtering/filter:
           base-revision: main
-          branch-pattern: "^main$"
           mapping: |
-            project1/.* build_project1
-            project2/.* build_project2
-            shared/.* build_shared
+            project1/.* build_project1 true
+            project2/.* build_project2 true
+            shared/.* build_shared true
