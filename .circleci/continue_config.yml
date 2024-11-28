@@ -1,10 +1,10 @@
 version: 2.1
 
 parameters:
-  run-build-service-1-job:
+  run-build-project-1-job:
     type: boolean
     default: false
-  run-build-service-2-job:
+  run-build-project-2-job:
     type: boolean
     default: false
   run-build-shared-job:
@@ -36,26 +36,15 @@ jobs:
       - run: echo "Building Shared Dependencies"
 
 workflows:
-  service-1:
-    when: << pipeline.parameters.run-build-service-1-job >>
+  project1:
+    when: << pipeline.parameters.run-build-project-1-job >>
     jobs:
-      - build_project1:
-          name: build_project1
-          executor: default
-          steps:
-            - checkout
-            - run: echo "Building Project 1"
-  service-2:
-    when: << pipeline.parameters.run-build-service-2-job >>
+      - build_project1
+  project2:
+    when: << pipeline.parameters.run-build-project-2-job >>
     jobs:
       - build_project2
-
   shared:
     when: << pipeline.parameters.run-build-shared-job >>
     jobs:
-      - build_shared:
-          name: build_shared
-          executor: default
-          steps:
-            - checkout
-            - run: echo "Building Shared Dependencies"
+      - build_shared
