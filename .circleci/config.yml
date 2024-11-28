@@ -1,10 +1,21 @@
 version: 2.1
 
+orbs:
+  path-filtering: circleci/path-filtering@1.1.0
+
 # define this file as the setup phase of your dynamic configuration
 setup: true
 
-orbs:
-  path-filtering: circleci/path-filtering@1.1.0
+parameters:
+  project1:
+    type: boolean
+    default: false
+  project2:
+    type: boolean
+    default: false
+  shared:
+    type: boolean
+    default: false
 
 workflows:
   version: 2
@@ -13,11 +24,11 @@ workflows:
       - path-filtering/filter:
           base-revision: main
           config-path: .circleci/continue_config.yml
-          mapping: |
-            project1/.* project1 true
-            project2/.* project2 true
-            shared/.* shared true
           parameters:
             project1: << pipeline.parameters.project1 >>
             project2: << pipeline.parameters.project2 >>
             shared: << pipeline.parameters.shared >>
+          mapping: |
+            project1/.* project1 true
+            project2/.* project2 true
+            shared/.* shared true
