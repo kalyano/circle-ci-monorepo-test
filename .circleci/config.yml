@@ -1,39 +1,19 @@
 version: 2.1
 
+# define this file as the setup phase of your dynamic configuration
+setup: true
+
 orbs:
   path-filtering: circleci/path-filtering@1.1.0
 
-executors:
-  default:
-    docker:
-      - image: circleci/node:14
-
-jobs:
-  build_project1:
-    executor: default
-    steps:
-      - checkout
-      - run: echo "Building Project 1"
-
-  build_project2:
-    executor: default
-    steps:
-      - checkout
-      - run: echo "Building Project 2"
-
-  build_shared:
-    executor: default
-    steps:
-      - checkout
-      - run: echo "Building Shared Dependencies"
-
 workflows:
   version: 2
-  project_workflows:
+  main_workflow:
     jobs:
       - path-filtering/filter:
           base-revision: main
+          config-path: .circleci/continue_config.yml
           mapping: |
-            project1/.* build_project1 true
-            project2/.* build_project2 true
-            shared/.* build_shared true
+            project1/.* project1 true
+            project2/.* project2 true
+            shared/.* shared true
