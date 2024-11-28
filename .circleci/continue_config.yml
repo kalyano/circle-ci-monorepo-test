@@ -1,5 +1,16 @@
 version: 2.1
 
+parameters:
+  project1:
+    type: boolean
+    default: false
+  project2:
+    type: boolean
+    default: false
+  shared:
+    type: boolean
+    default: false
+
 executors:
   default:
     docker:
@@ -8,18 +19,27 @@ executors:
 jobs:
   build_project1:
     executor: default
+    parameters:
+      project1:
+        type: boolean
     steps:
       - checkout
       - run: echo "Building Project 1"
 
   build_project2:
     executor: default
+    parameters:
+      project2:
+        type: boolean
     steps:
       - checkout
       - run: echo "Building Project 2"
 
   build_shared:
     executor: default
+    parameters:
+      shared:
+        type: boolean
     steps:
       - checkout
       - run: echo "Building Shared Dependencies"
@@ -29,13 +49,14 @@ workflows:
   project_workflows:
     jobs:
       - build_project1:
+          project1: << pipeline.parameters.project1 >>
           when:
-            equal: [ project1, << pipeline.parameters.project1 >> ]
-
+            condition: << pipeline.parameters.project1 >>
       - build_project2:
+          project2: << pipeline.parameters.project2 >>
           when:
-            equal: [ project2, << pipeline.parameters.project2 >> ]
-
+            condition: << pipeline.parameters.project2 >>
       - build_shared:
+          shared: << pipeline.parameters.shared >>
           when:
-            equal: [ shared, << pipeline.parameters.shared >> ]
+            condition: << pipeline.parameters.shared >>
