@@ -16,6 +16,25 @@ executors:
     docker:
       - image: circleci/node:14
 
+jobs:
+  build_project1:
+    executor: default
+    steps:
+      - checkout
+      - run: echo "Building Project 1"
+
+  build_project2:
+    executor: default
+    steps:
+      - checkout
+      - run: echo "Building Project 2"
+
+  build_shared:
+    executor: default
+    steps:
+      - checkout
+      - run: echo "Building Shared Dependencies"
+
 workflows:
   service-1:
     when: << pipeline.parameters.run-build-service-1-job >>
@@ -29,12 +48,8 @@ workflows:
   service-2:
     when: << pipeline.parameters.run-build-service-2-job >>
     jobs:
-      - build_project2:
-          name: build_project2
-          executor: default
-          steps:
-            - checkout
-            - run: echo "Building Project 2"
+      - build_project2
+
   shared:
     when: << pipeline.parameters.run-build-shared-job >>
     jobs:
