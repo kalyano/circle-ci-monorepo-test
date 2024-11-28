@@ -17,3 +17,7 @@ workflows:
             project1/.* project1 true
             project2/.* project2 true
             shared/.* shared true
+          parameters:
+            project1: << pipeline.parameters.project1 >>
+            project2: << pipeline.parameters.project2 >>
+            shared: << pipeline.parameters.shared >>
