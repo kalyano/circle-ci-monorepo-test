@@ -33,7 +33,7 @@ workflows:
     jobs:
       - path-filtering/filter:
           base-revision: main
-          mapping:
-            project1/.*: build_project1
-            project2/.*: build_project2
-            shared/.*: build_shared
+          mapping: |
+            project1/.* build_project1
+            project2/.* build_project2
+            shared/.* build_shared
