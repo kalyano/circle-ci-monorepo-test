@@ -16,41 +16,31 @@ executors:
     docker:
       - image: circleci/node:14
 
-jobs:
-  build_project1:
-    executor: default
-    steps:
-      - checkout
-      - run: echo "Building Project 1"
-
-  build_project2:
-    executor: default
-    steps:
-      - checkout
-      - run: echo "Building Project 2"
-
-  build_shared:
-    executor: default
-    steps:
-      - checkout
-      - run: echo "Building Shared Dependencies"
-
 workflows:
-  version: 2
-  project_workflows:
+  service-1:
+    when: << pipeline.parameters.run-build-service-1-job >>
     jobs:
       - build_project1:
-          requires:
-            - path-filtering/filter
-          when:
-            condition: << pipeline.parameters.project1 >>
-      - build_project2:
-          requires:
-            - path-filtering/filter
-          when:
-            condition: << pipeline.parameters.project2 >>
-      - build_shared:
-          requires:
-            - path-filtering/filter
-          when:
-            condition: << pipeline.parameters.shared >>
+          name: build_project1
+          executor: default
+          steps:
+            - checkout
+            - run: echo "Building Project 1"
+  service-2:
+    when: << pipeline.parameters.run-build-service-2-job >>
+    jobs:
+      - build_project1:
+          name: build_project2
+          executor: default
+          steps:
+            - checkout
+            - run: echo "Building Project 2"
+  shared:
+    when: << pipeline.parameters.run-build-shared-job >>
+    jobs:
+      - build_project1:
+          name: build_shared
+          executor: default
+          steps:
+            - checkout
+            - run: echo "Building Shared Dependencies"
