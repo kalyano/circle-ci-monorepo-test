@@ -1,0 +1,41 @@
+version: 2.1
+
+executors:
+  default:
+    docker:
+      - image: circleci/node:14
+
+jobs:
+  build_project1:
+    executor: default
+    steps:
+      - checkout
+      - run: echo "Building Project 1"
+
+  build_project2:
+    executor: default
+    steps:
+      - checkout
+      - run: echo "Building Project 2"
+
+  build_shared:
+    executor: default
+    steps:
+      - checkout
+      - run: echo "Building Shared Dependencies"
+
+workflows:
+  version: 2
+  project_workflows:
+    jobs:
+      - build_project1:
+          when:
+            equal: [ project1, << pipeline.parameters.project1 >> ]
+
+      - build_project2:
+          when:
+            equal: [ project2, << pipeline.parameters.project2 >> ]
+
+      - build_shared:
+          when:
+            equal: [ shared, << pipeline.parameters.shared >> ]
