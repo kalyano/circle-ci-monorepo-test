@@ -16,8 +16,8 @@ workflows:
       - path-filtering/filter:
           name: check-updated-files
           mapping: |
-            project1/.* run-build-service-1-job true
-            project2/.* run-build-service-2-job true
+            project1/.* run-build-project-1-job true
+            project2/.* run-build-project-2-job true
             shared/.* run-build-shared-job true
           base-revision: main
           config-path: .circleci/continue_config.yml
