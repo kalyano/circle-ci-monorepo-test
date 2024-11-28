@@ -9,21 +9,18 @@ executors:
       - image: circleci/node:14
 
 jobs:
-  # Job for Project 1
   build_project1:
     executor: default
     steps:
       - checkout
       - run: echo "Building Project 1"
 
-  # Job for Project 2
   build_project2:
     executor: default
     steps:
       - checkout
       - run: echo "Building Project 2"
 
-  # Job for Shared Folder
   build_shared:
     executor: default
     steps:
@@ -35,8 +32,8 @@ workflows:
   project_workflows:
     jobs:
       - path-filtering/filter:
-          base-revision: main # Replace with your default branch
-          mapping: |
-            project1/.* build_project1
-            project2/.* build_project2
-            shared/.* build_shared
+          base-revision: main
+          mapping:
+            project1/.*: build_project1
+            project2/.*: build_project2
+            shared/.*: build_shared
