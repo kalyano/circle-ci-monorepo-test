@@ -29,7 +29,7 @@ workflows:
   service-2:
     when: << pipeline.parameters.run-build-service-2-job >>
     jobs:
-      - build_project1:
+      - build_project2:
           name: build_project2
           executor: default
           steps:
@@ -38,7 +38,7 @@ workflows:
   shared:
     when: << pipeline.parameters.run-build-shared-job >>
     jobs:
-      - build_project1:
+      - build_shared:
           name: build_shared
           executor: default
           steps:
