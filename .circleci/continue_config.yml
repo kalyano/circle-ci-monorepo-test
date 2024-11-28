@@ -1,13 +1,13 @@
 version: 2.1
 
 parameters:
-  project1:
+  run-build-service-1-job:
     type: boolean
     default: false
-  project2:
+  run-build-service-2-job:
     type: boolean
     default: false
-  shared:
+  run-build-shared-job:
     type: boolean
     default: false
 
