@@ -32,37 +32,11 @@ jobs:
 
 workflows:
   version: 2
-
-  # Define workflows triggered by path changes
   project_workflows:
     jobs:
       - path-filtering/filter:
-          name: project1-changes
-          paths:
-            - "project1/**"
-          trigger: project1_workflow
-
-      - path-filtering/filter:
-          name: project2-changes
-          paths:
-            - "project2/**"
-          trigger: project2_workflow
-
-      - path-filtering/filter:
-          name: shared-changes
-          paths:
-            - "shared/**"
-          trigger: shared_workflow
-
-  # Define individual workflows
-  project1_workflow:
-    jobs:
-      - build_project1
-
-  project2_workflow:
-    jobs:
-      - build_project2
-
-  shared_workflow:
-    jobs:
-      - build_shared
+          base-revision: main # Replace with your default branch
+          mapping: |
+            project1/.* build_project1
+            project2/.* build_project2
+            shared/.* build_shared
